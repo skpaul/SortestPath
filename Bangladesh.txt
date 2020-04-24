@@ -1,0 +1,49 @@
+14 34
+Dhaka
+Chittagong
+Rajshahi
+Khulna
+Sylhet
+Mymensingh
+Barisal
+Rangpur
+Comilla
+Gazipur
+Jessore
+Madaripur
+Bogura
+Thakurgaon
+Dhaka Rajshahi 245
+Rajshahi Bogura 124
+Rajshahi Khulna 266
+Khulna Jessore 66
+Jessore Madaripur 144
+Jessore Dhaka 197
+Dhaka Madaripur 101
+Madaripur Khulna 122
+Dhaka Sylhet 243
+Sylhet Mymensingh 187
+Mymensingh Gazipur 93
+Gazipur Dhaka 27
+Mymensingh Bogura 181
+Gazipur Sylhet 234
+Gazipur Bogura 175
+Gazipur Rajshahi 227
+Gazipur Comilla 122
+Khulna Barisal 116
+Madaripur Barisal 60
+Dhaka Barisal 238
+Comilla Madaripur 158
+Comilla Barisal 172
+Comilla Chittagong 146
+Dhaka Comilla 112
+Sylhet Comilla 223
+Rangpur Bogura 106
+Rangpur Rajshahi 215
+Jessore Bogura 226
+Rajshahi Jessore 208
+Chittagong Barisal 239
+Chittagong Madaripur 245
+Thakurgaon Rangpur 120
+Thakurgaon Bogura 200
+Rangpur Mymensingh 150
