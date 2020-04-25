@@ -9,37 +9,37 @@ import java.util.Map;
 import java.util.Set;
 
 public class Route {
-    private final List<District> nodes;
-    private final List<Road> edges;
-    private Set<District> settledNodes;
-    private Set<District> unSettledNodes;
-    private Map<District, District> predecessors;
-    private Map<District, Integer> distance;
+    private final List<Vertex> nodes;
+    private final List<Edge> edges;
+    private Set<Vertex> settledNodes;
+    private Set<Vertex> unSettledNodes;
+    private Map<Vertex, Vertex> predecessors;
+    private Map<Vertex, Integer> distance;
 
-    public Route(List<District> districts, List<Road> roads) {
+    public Route(List<Vertex> districts, List<Edge> roads) {
         // create a copy of the array so that we can operate on this array
-        this.nodes = new ArrayList<District>(districts);
-        this.edges = new ArrayList<Road>(roads);
+        this.nodes = new ArrayList<Vertex>(districts);
+        this.edges = new ArrayList<Edge>(roads);
     }
 
-    public void execute(District source) {
-        settledNodes = new HashSet<District>();
-        unSettledNodes = new HashSet<District>();
-        distance = new HashMap<District, Integer>();
-        predecessors = new HashMap<District, District>();
+    public void execute(Vertex source) {
+        settledNodes = new HashSet<Vertex>();
+        unSettledNodes = new HashSet<Vertex>();
+        distance = new HashMap<Vertex, Integer>();
+        predecessors = new HashMap<Vertex, Vertex>();
         distance.put(source, 0);
         unSettledNodes.add(source);
         while (unSettledNodes.size() > 0) {
-            District node = getMinimum(unSettledNodes);
+            Vertex node = getMinimum(unSettledNodes);
             settledNodes.add(node);
             unSettledNodes.remove(node);
             findMinimalDistances(node);
         }
     }
 
-    private void findMinimalDistances(District node) {
-        List<District> adjacentNodes = getNeighbors(node);
-        for (District target : adjacentNodes) {
+    private void findMinimalDistances(Vertex node) {
+        List<Vertex> adjacentNodes = getNeighbors(node);
+        for (Vertex target : adjacentNodes) {
             if (getShortestDistance(target) > getShortestDistance(node)
                     + getDistance(node, target)) {
                 distance.put(target, getShortestDistance(node)
@@ -51,8 +51,8 @@ public class Route {
 
     }
 
-    private int getDistance(District node, District target) {
-        for (Road edge : edges) {
+    private int getDistance(Vertex node, Vertex target) {
+        for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && edge.getDestination().equals(target)) {
                 return edge.getWeight();
@@ -61,9 +61,9 @@ public class Route {
         throw new RuntimeException("Should not happen");
     }
 
-    private List<District> getNeighbors(District node) {
-        List<District> neighbors = new ArrayList<District>();
-        for (Road edge : edges) {
+    private List<Vertex> getNeighbors(Vertex node) {
+        List<Vertex> neighbors = new ArrayList<Vertex>();
+        for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && !isSettled(edge.getDestination())) {
                 neighbors.add(edge.getDestination());
@@ -72,9 +72,9 @@ public class Route {
         return neighbors;
     }
 
-    private District getMinimum(Set<District> vertexes) {
-        District minimum = null;
-        for (District vertex : vertexes) {
+    private Vertex getMinimum(Set<Vertex> vertexes) {
+        Vertex minimum = null;
+        for (Vertex vertex : vertexes) {
             if (minimum == null) {
                 minimum = vertex;
             } else {
@@ -86,11 +86,11 @@ public class Route {
         return minimum;
     }
 
-    private boolean isSettled(District vertex) {
+    private boolean isSettled(Vertex vertex) {
         return settledNodes.contains(vertex);
     }
 
-    private int getShortestDistance(District destination) {
+    private int getShortestDistance(Vertex destination) {
         Integer d = distance.get(destination);
         if (d == null) {
             return Integer.MAX_VALUE;
@@ -103,9 +103,9 @@ public class Route {
      * This method returns the path from the source to the selected target and
      * NULL if no path exists
      */
-    public LinkedList<District> getPath(District target) {
-        LinkedList<District> path = new LinkedList<District>();
-        District step = target;
+    public LinkedList<Vertex> getPath(Vertex target) {
+        LinkedList<Vertex> path = new LinkedList<Vertex>();
+        Vertex step = target;
         // check if a path exists
         if (predecessors.get(step) == null) {
             return null;

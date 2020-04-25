@@ -13,10 +13,10 @@ public class Main
 		try {
 			Scanner scan = new Scanner(System.in);
 
-			List<District> districtList  = new ArrayList<>();
+			List<Vertex> districtList  = new ArrayList<>();
 			districtList = enterDistrict(districtList, scan);
 			
-			List<Road> roadList  = new ArrayList<>();
+			List<Edge> roadList  = new ArrayList<>();
 			roadList = enterRoad(roadList, districtList, scan);
 			Route route = new Route(districtList, roadList);
 			findRoute(route, districtList, scan);
@@ -33,7 +33,7 @@ public class Main
 		 }
 	}
 	
-	static List<District> enterDistrict(List<District> existingList, Scanner scan){
+	static List<Vertex> enterDistrict(List<Vertex> existingList, Scanner scan){
 		System.out.println("------------------------------------------------------------------------");
 		System.out.println("Enter the name of district ... [N = No]");
 		System.out.println("------------------------------------------------------------------------");
@@ -47,7 +47,7 @@ public class Main
 			}
 			else{
 				Integer count = existingList.size();
-				District dist = new District("" + count, name);
+				Vertex dist = new Vertex("" + count, name);
 				existingList.add(dist);
 				enterDistrict(existingList, scan);
 			}
@@ -56,7 +56,7 @@ public class Main
 		return existingList;
 	}
 	
-	static List<Road> enterRoad(List<Road> existingRoads, List<District> districts, Scanner scan){
+	static List<Edge> enterRoad(List<Edge> existingRoads, List<Vertex> districts, Scanner scan){
 		Integer counter = existingRoads.size() + 1;
 		System.out.println("------------------------------------------------------------------------");
 		System.out.println("Enter road#"+ counter +": start, end, distance   [N = No] ...");
@@ -75,7 +75,7 @@ public class Main
 				   enterRoad(existingRoads, districts, scan);
 				}
 		   
-				District originDistrict = find(origin, districts);
+				Vertex originDistrict = find(origin, districts);
 
 				String  destination = inputArray[1];
 
@@ -84,12 +84,12 @@ public class Main
 					enterRoad(existingRoads, districts, scan);
 				 }
 			
-				District destinationDistrict = find(destination, districts);
+				Vertex destinationDistrict = find(destination, districts);
 
 			
 				Integer distnance = Integer.parseInt(inputArray[2]);
 
-				Road newRoad = new Road(""+ counter, originDistrict, destinationDistrict, distnance);
+				Edge newRoad = new Edge(""+ counter, originDistrict, destinationDistrict, distnance);
 				existingRoads.add(newRoad);
 				enterRoad(existingRoads, districts, scan);
 		}
@@ -97,12 +97,12 @@ public class Main
 		return existingRoads;
 	}
 
-	static boolean isExist(String name, List<District> districts ){
+	static boolean isExist(String name, List<Vertex> districts ){
 
 		if(districts.size() == 0){
 			return false;
 		}
-		for (District dist : districts) {
+		for (Vertex dist : districts) {
 			if(dist != null){
 				String nn = dist.getName();
 				if (nn.equals(name)) {
@@ -115,8 +115,8 @@ public class Main
 		return false;
 	}
 
-	static District find(String name, List<District> districts ){
-		for (District dist : districts) {
+	static Vertex find(String name, List<Vertex> districts ){
+		for (Vertex dist : districts) {
             String nn = dist.getName();
 				if (nn.equals(name)) {
 					return dist;
@@ -125,9 +125,9 @@ public class Main
 		throw new RuntimeException("Should not happen");		
 	}
 
-	static Integer getIndex(String name, List<District>districtList ){
+	static Integer getIndex(String name, List<Vertex>districtList ){
 		Integer index = 0;
-		for(District dist: districtList){
+		for(Vertex dist: districtList){
 			String nn = dist.getName();
 			if (nn.equals(name)) {
 				return index;
@@ -139,7 +139,7 @@ public class Main
 		return index;
 	}
 
-	static void findRoute(Route route, List<District> districtList, Scanner scan ){
+	static void findRoute(Route route, List<Vertex> districtList, Scanner scan ){
 			//Get the starting district name of journey
 			System.out.println("Where do you want to start your journey? ...");
 			String startPoint = scan.next();
@@ -149,7 +149,7 @@ public class Main
 			String endPoint = scan.next();
 			Integer endingIndex = getIndex(endPoint, districtList);
 
-			LinkedList<District> path = null;
+			LinkedList<Vertex> path = null;
 			//start with the starting index-
 			try {
 				route.execute(districtList.get(startingIndex));
@@ -163,7 +163,7 @@ public class Main
 
 
 			String finalPath = "";
-			for (District district : path) {
+			for (Vertex district : path) {
 				 if(finalPath.isEmpty()){
 					 finalPath = district.getName();
 				 }

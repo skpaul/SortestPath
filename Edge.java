@@ -1,5 +1,3 @@
-//package de.vogella.algorithms.dijkstra.model;
-
 public class Edge  {
     private final String id;
     private final Vertex source;
