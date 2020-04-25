@@ -115,24 +115,6 @@ public class Main
 		return false;
 	}
 
-	// static boolean isExist(String name, District[] districts ){
-		
-	// 	if(districts.length == 0){
-	// 		return false;
-	// 	}
-	// 	for (District dist : districts) {
-	// 		if(dist != null){
-	// 			String nn = dist.getName();
-	// 			if (nn.equals(name)) {
-	// 				return true;
-	// 			}
-	// 		}
-			
-	// 	}
-	// 	//throw new RuntimeException("Should not happen");
-	// 	return false;
-	// }
-	
 	static District find(String name, List<District> districts ){
 		for (District dist : districts) {
             String nn = dist.getName();
@@ -140,20 +122,8 @@ public class Main
 					return dist;
 				}
         }
-		throw new RuntimeException("Should not happen");
-		
+		throw new RuntimeException("Should not happen");		
 	}
-
-	// static District find(String name, District[] districts ){
-	// 	for (District dist : districts) {
-    //         String nn = dist.getName();
-	// 			if (nn.equals(name)) {
-	// 				return dist;
-	// 			}
-    //     }
-	// 	throw new RuntimeException("Should not happen");
-		
-	// }
 
 	static Integer getIndex(String name, List<District>districtList ){
 		Integer index = 0;
@@ -179,10 +149,17 @@ public class Main
 			String endPoint = scan.next();
 			Integer endingIndex = getIndex(endPoint, districtList);
 
+			LinkedList<District> path = null;
 			//start with the starting index-
-			route.execute(districtList.get(startingIndex));
-
-			LinkedList<District> path = route.getPath(districtList.get(endingIndex));
+			try {
+				route.execute(districtList.get(startingIndex));
+				 path = route.getPath(districtList.get(endingIndex));
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				System.out.println("Please start again ..");
+				findRoute(route, districtList, scan);
+			}
+			
 
 
 			String finalPath = "";
