@@ -18,7 +18,7 @@ public class Main
 			
 			List<Edge> roadList  = new ArrayList<>();
 			roadList = enterRoad(roadList, districtList, scan);
-			Route route = new Route(districtList, roadList);
+			ShortestPath route = new ShortestPath(districtList, roadList);
 			findRoute(route, districtList, scan);
 			
 			System.out.println("");
@@ -68,7 +68,15 @@ public class Main
 		if(!roadDetails.equals("n")){
 				String[] inputArray = roadDetails.split(",");
 				
+				if(inputArray.length < 3){
+					enterRoad(existingRoads, districts, scan);
+				}
+
 				String origin = inputArray[0];
+
+				if(origin == ""){
+					enterRoad(existingRoads, districts, scan);
+				}
 
 				if(!isExist(origin, districts)){
 				   System.out.println("This district does not exist");
@@ -78,7 +86,9 @@ public class Main
 				Vertex originDistrict = find(origin, districts);
 
 				String  destination = inputArray[1];
-
+				if(destination == ""){
+					enterRoad(existingRoads, districts, scan);
+				}
 				if(!isExist(destination, districts)){
 					System.out.println("This district does not exist");
 					enterRoad(existingRoads, districts, scan);
@@ -139,7 +149,7 @@ public class Main
 		return index;
 	}
 
-	static void findRoute(Route route, List<Vertex> districtList, Scanner scan ){
+	static void findRoute(ShortestPath route, List<Vertex> districtList, Scanner scan ){
 			//Get the starting district name of journey
 			System.out.println("Where do you want to start your journey? ...");
 			String startPoint = scan.next();

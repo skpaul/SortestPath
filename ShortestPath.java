@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Route {
+public class ShortestPath {
     private final List<Vertex> nodes;
     private final List<Edge> edges;
     private Set<Vertex> settledNodes;
@@ -16,7 +16,7 @@ public class Route {
     private Map<Vertex, Vertex> predecessors;
     private Map<Vertex, Integer> distance;
 
-    public Route(List<Vertex> districts, List<Edge> roads) {
+    public ShortestPath(List<Vertex> districts, List<Edge> roads) {
         // create a copy of the array so that we can operate on this array
         this.nodes = new ArrayList<Vertex>(districts);
         this.edges = new ArrayList<Edge>(roads);
