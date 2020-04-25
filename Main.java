@@ -38,8 +38,10 @@ public class Main
 			 counter = 0;
 			
 			do{
-				System.out.println("Enter the road details...");
-				System.out.println("District of origin");
+				System.out.println("-----------------------------------------------------");
+				
+				System.out.println("Road#"+ counter +" - Enter details ...");
+				System.out.println("    District of origin ...");
 				String origin = scan.next();
 
 				if(!isExist(origin, districts)){
@@ -49,7 +51,7 @@ public class Main
 		   
 				District originDistrict = find(origin, districts);
 
-				System.out.println("District of destination");
+				System.out.println("    District of destination ...");
 				String  destination = scan.next();
 
 				if(!isExist(destination, districts)){
@@ -59,7 +61,7 @@ public class Main
 			
 				 District destinationDistrict = find(destination, districts);
 
-				System.out.println("distnance");
+				System.out.println("    Distnance ...");
 				Integer  distnance = scan.nextInt();
 
 				Road newRoad = new Road(""+ counter, originDistrict, destinationDistrict, distnance);
@@ -67,31 +69,27 @@ public class Main
 				counter++;
 			 }while(counter < numberOfRoads);
 			 
-			scan.close();
 
-			Route route = new Route(Arrays.asList(districts), Arrays.asList(roads));
-			var aaa = Arrays.asList(districts);
-			route.execute(aaa.get(0));
-
-			 LinkedList<District> path = route.getPath(aaa.get(2));
-
-			 String finalPath = "";
-			 for (District district : path) {
-				 if(finalPath.isEmpty()){
-					 finalPath = district.getName();
-				 }
-				 else{
-					finalPath = finalPath + "-" + district.getName();
-				 }
-				System.out.println(finalPath);
-			}
-
+			List<District> districtList = Arrays.asList(districts); 
+			
+			Route route = new Route(districtList, Arrays.asList(roads));
+			
+			findRoute(route, districtList, scan);
 			
 			System.out.println("Good Bye");
+
+			scan.close();
 		 
 		 } catch(Exception e) {
 			 System.out.println(e.getMessage());
 		 }
+	}
+	
+	static List<District> enterDistrict(List<District> existingList, Scanner scan){
+		System.out.println("Where do you want to start your journey? ...");
+		String name = scan.next();
+		District dist = new District("id", name);
+		return existingList;
 	}
 	
 	static boolean isExist(String name, District[] districts ){
@@ -122,6 +120,59 @@ public class Main
 		throw new RuntimeException("Should not happen");
 		
 	}
+
+	static Integer getIndex(String name, List<District>districtList ){
+		Integer index = 0;
+		for(District dist: districtList){
+			String nn = dist.getName();
+			if (nn.equals(name)) {
+				return index;
+			}
+			else{
+				index++;
+			}
+		}
+		return index;
+	}
+
+	static void findRoute(Route route, List<District> districtList, Scanner scan ){
+			//Get the starting district name of journey
+			System.out.println("Where do you want to start your journey? ...");
+			String startPoint = scan.next();
+			Integer startingIndex = getIndex(startPoint, districtList);
+		
+			System.out.println("Where do you want to end your journey? ...");
+			String endPoint = scan.next();
+			Integer endingIndex = getIndex(endPoint, districtList);
+
+			//start with the starting index-
+			route.execute(districtList.get(startingIndex));
+
+			LinkedList<District> path = route.getPath(districtList.get(endingIndex));
+
+
+			String finalPath = "";
+			for (District district : path) {
+				 if(finalPath.isEmpty()){
+					 finalPath = district.getName();
+				 }
+				 else{
+					finalPath = finalPath + "-" + district.getName();
+				 }
+			}
+				
+			System.out.println("Shortest route of your journey from "+ startPoint +" to "+ endPoint +" is the following ...");
+			System.out.println(finalPath);
+
+			System.out.println("Do you want to start another journey? ... yes/no");
+			String decision = scan.next();
+			if(decision.equals("yes"))
+			{
+				findRoute(route, districtList, scan);
+			}
+
+	}
+
 
 }
 
